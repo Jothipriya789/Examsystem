@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Examsystem.Models.Category>
+
+@{
+    ViewBag.Title = "showexam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>showexam</h2>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.category_name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.category_name)
+            </td>
+            <td>
+                <a href="@Url.Action("StartExam", new { id=item.category_id })" class="btn btn-success">Start Exam</a>
+
+            </td>
+        </tr>
+    }
+
+</table>

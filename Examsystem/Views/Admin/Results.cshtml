@@ -1,0 +1,44 @@
+﻿
+@model Examsystem.Models.Report
+
+@{
+    ViewData["Title"] = "Display";
+}
+
+
+<div>
+    <h4>Report  </h4>
+    <table>
+        <tr>
+
+        </tr>
+        <tr></tr>
+
+
+        <tr>
+            <td>Report id: </td>
+            <td>@ViewBag.reportid</td>
+        </tr>
+        <tr>
+            <td>Exam id: </td>
+            <td>@ViewBag.eid</td>
+        </tr>
+        <tr>
+            <td>user id </td>
+            <td> @ViewBag.uid</td>
+        </tr>
+        <tr>
+            <td>score </td>
+            <td> @ViewBag.score</td>
+        </tr>
+
+        <tr>
+            <td> result status </td>
+            <td> @ViewBag.status</td>
+        </tr>
+        
+    </table>
+</div>
+<div>
+    <a href="@Url.Action("Getdetailsstudents", new {  })" class="btn btn-success">back to list</a>
+</div>

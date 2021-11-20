@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Examsystem.Models.Candidate>
+
+@{
+    ViewBag.Title = "Getdetailsstudents";
+    
+}
+
+<h2>Getdetailsstudents</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Userid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Userfname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Userlname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phoneno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Userid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Userfname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Userlname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+       
+        <td>
+            <a href="@Url.Action("Results", new { id=@item.Userid})" class="btn btn-success">view Results</a>
+
+        </td>
+    </tr>
+}
+
+</table>

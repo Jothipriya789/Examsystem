@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "End";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Endexam</h2>
+<html>
+<body>
+    <div>
+        <h1>completed Exam !!</h1>
+        <h2>your score is @TempData["score"]</h2>
+        <p>examid is @TempData["examid"]</p>
+        <p>userid is @TempData["uid"]</p>
+        <p>result status is pass</p>
+
+    </div>
+</body>
+</html>
+<div>
+    <a href="@Url.Action("showexam", new { })" class="btn btn-success">return to exam page</a>
+</div>
+

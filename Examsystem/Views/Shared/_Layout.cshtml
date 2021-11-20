@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/StyleSheet1.css"/>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Online Examination system ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+                <ul class="nav navbar-nav" style="float:right !important">
+
+                    @if (Session["Username"] != null)
+                    {
+
+                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Username"] </p></li>
+                        <li>@Html.ActionLink("Logout", "Logout", "User")</li>
+                    }
+
+                    @if (Session["Admin_id"] != null)
+                    {
+                        <li>@Html.ActionLink("Add subjects ", "Add", "Admin")</li>
+                        <li>@Html.ActionLink("Add exam schedule ", "Addexam", "Admin")</li>
+                        <li>@Html.ActionLink("view exam schedule  ", "GetdetailsExams", "Admin")</li>
+                        <li>@Html.ActionLink("Add questions", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("view questions", "Getdetailsques", "Admin")</li>
+                        <li>@Html.ActionLink("view report", "Getdetailsstudents", "Admin")</li>
+                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Admin_id"] </p></li>
+                        <li>@Html.ActionLink("Logoutadmin", "Logoutadmin", "Admin")</li>
+
+                    }
+                    @if((Session["Admin_id"] == null) && (Session["Username"] == null))
+                    {
+                        <li>@Html.ActionLink("Signup", "Signup", "User")</li>
+                        <li>@Html.ActionLink("Login", "Login", "User")</li>
+                        <li>@Html.ActionLink("AdminLogin", "AdminLogin", "Admin")</li>
+                    }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+       
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

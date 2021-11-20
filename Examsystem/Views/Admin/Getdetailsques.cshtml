@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Examsystem.Models.Question>
+
+@{
+    ViewBag.Title = "view questions ";
+   
+}
+
+<h2>Getdetailsques</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Qid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Q_text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qcorrectans)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.category_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Qid)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Q_text)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.QA)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.QB)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.QC)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.QD)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Qcorrectans)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.category_id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.levelid)
+    </td>
+    <td>
+    <td>
+        <a href="@Url.Action("Delete", new { id=item.Qid })" class="btn btn-danger">Delete</a>
+    </td>
+    </td>
+</tr>
+}
+
+</table>
