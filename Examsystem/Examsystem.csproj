@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <IISExpressSSLPort>44311</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -244,7 +244,6 @@
     <Content Include="Views\User\Endexam.cshtml" />
     <Content Include="Views\User\level2.cshtml" />
     <Content Include="Views\User\StartExam1.cshtml" />
-    <Content Include="Views\User\End.cshtml" />
     <Content Include="Views\Admin\Getdetailsstudents.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Getdetailsques.cshtml" />
@@ -252,7 +251,6 @@
     <Content Include="Views\Admin\GetdetailsExams.cshtml" />
     <Content Include="Views\Admin\Add.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\User\Results.cshtml" />
     <Content Include="Views\Admin\Results.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +293,8 @@
           <DevelopmentServerPort>50448</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>https://localhost:44311/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44311/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

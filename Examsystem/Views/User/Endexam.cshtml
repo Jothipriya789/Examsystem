@@ -20,6 +20,15 @@
     </div>
 </body>
 </html>
-<div>
-    <a href="@Url.Action("level2", new {id= @TempData["score"]})" class="btn btn-success">ok & continue </a>
-</div>
+@if (ViewBag.not == null)
+{
+    <div>
+        <a href="@Url.Action("level2", new { id = @TempData["score"] })" class="btn btn-success">ok & continue </a>
+    </div>
+}
+@if (ViewBag.not != null)
+{
+    <div>
+        <a href="@Url.Action("logout", new { id = @TempData["score"] })" class="btn btn-success">ok & continue </a>
+    </div>
+}

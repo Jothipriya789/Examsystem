@@ -202,18 +202,49 @@ namespace Examsystem.Controllers
             }
             return View();
         }
-        public ActionResult Endexam()
+        public ActionResult Endexam(Report report)
         {
             var id = Convert.ToInt32(TempData["score"]);
             var p = Convert.ToInt32(TempData["pscore"]);
             var level = Convert.ToInt32(TempData["level"]);
             TempData["score"] = id;
             TempData.Keep();
-            if (level == 3)
-            {
-                return RedirectToAction("End");
-            }
+            var c = Convert.ToInt32(TempData["score"]);
+            var u = (TempData["uid"]).ToString();
+            var e = (TempData["examid"]).ToString();
+            report.result_score = c;
+            report.user_id = u;
+            report.exam_id = e;
             if (id >= p)
+            {
+                report.result_status = "pass";
+            }
+            else
+            {
+                report.result_status = "fail";
+            }
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Reports.Add(report);
+                    db.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Notification = ex;
+                return View();
+            }
+            if (id >= p && level==3)
+            {
+                ViewBag.msg1 = "congratulations on completed 3 levels";
+                ViewBag.msg = "pass";
+                ViewBag.not = "level3";
+                return View();
+            }
+            else if (id >= p)
             {
                 ViewBag.msg = "pass";
                 ViewBag.msg1 = "congratulations on completed this level ";
@@ -221,13 +252,10 @@ namespace Examsystem.Controllers
             }
             else
             {
-                ViewBag.msg1 = "sorry! better luck next time ";
                 ViewBag.msg = "fail";
+                ViewBag.msg1 = "sorry! better luck next time ";
                 return View();
             }
-           
-            
-            return View();
         }
         public ActionResult level2(int id)
         {
@@ -240,7 +268,7 @@ namespace Examsystem.Controllers
             }
             else
             {
-                return RedirectToAction("showexam");
+                return RedirectToAction("logout");
             }
            
         }
@@ -289,73 +317,7 @@ namespace Examsystem.Controllers
                 }
             }
         }
-        public ActionResult End()
-        {
-            var id = Convert.ToInt32(TempData["e"]);
-            var p = Convert.ToInt32(TempData["pscore"]);
-            if (id >= p)
-            {
-
-                ViewBag.msg1 = "congratulations on completed 3 levels";
-                ViewBag.msg = "pass";
-
-                return View();
-            }
-            else
-            {
-                ViewBag.msg = "fail";
-                ViewBag.msg1 = "sorry! better luck next time ";
-              
-                return View();
-            }
-
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Results()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Results(Report report)
-        {
-            OnlineExaminationEntities db1 = new OnlineExaminationEntities();
-            var c = Convert.ToInt32(TempData["score"]);
-            var u = Convert.ToInt32(TempData["uid"]).ToString();
-            var e = Convert.ToInt32(TempData["examid"]).ToString();
-            report.result_score = c;
-            ViewBag.rs = report.result_score;
-            report.user_id = u;
-            report.exam_id = e;
-            var level = Convert.ToInt32(TempData["level"]);
-            if (level == 3)
-            {
-                report.result_status = "excellent";
-            }
-            else if (level == 2)
-            {
-                report.result_status = "good";
-            }
-            else if (level == 1)
-            {
-                report.result_status = "better try";
-            }
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    db1.Reports.Add(report);
-                    db1.SaveChanges();
-                    return View();
-                }
-            }
-            catch(Exception ex)
-            {
-                ViewBag.Notification = ex;
-                return View();
-            }
-            return View();
-        }
-
+       
+       
     }
 }

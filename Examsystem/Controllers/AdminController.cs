@@ -319,19 +319,16 @@ namespace Examsystem.Controllers
         }
         public ActionResult Results(string id)
         {
-            var d = (from e in db.Reports where string.Equals(e.user_id, id) select e).SingleOrDefault();
+            var d = (from e in db.Reports where string.Equals(e.user_id, id) select e).ToList();
             var data = db.Reports.FirstOrDefault(x => string.Equals(x.user_id, id));
             if (data != null)
-            {
-                ViewBag.reportid = d.result_id;
-                ViewBag.score = d.result_score;
-                ViewBag.status = d.result_status;
-                ViewBag.uid = d.user_id;
-                ViewBag.eid = d.exam_id;
-                return View(d);
+            {   
+                List<Report> reports = d.ToList();
+                return View(reports);
             }
             else
             {
+                ViewBag.not = "no results found ";
                 return View();
             }
         }

@@ -3,43 +3,81 @@
 @{
     ViewBag.Title = "examques";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var endtime = DateTime.UtcNow.AddSeconds(61);
+    var timere = TimeSpan.FromTicks(endtime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
 }
 <h2>online exam </h2>
+<h3><b>time remaining :<span id="minre"></span>:<span id="secre"></span></b></h3>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-<div class="form-horizontal" >
-    <hr />
-    <div class="container" style="margin:auto">
-        <div class="row">
-          
-            <p> @TempData["sno"]) @Html.DisplayFor(x => x.Q_text)</p>
+    <div class="form-horizontal">
+        <hr />
+        <div class="container" style="margin:auto">
+            
+            <div class="row">
+
+                <p> @TempData["sno"]) @Html.DisplayFor(x => x.Q_text)</p>
+            </div>
+            <div class="row">
+                <p>@Html.RadioButtonFor(x => x.QA, new { @class = "form-control" })@Model.QA </p>
+            </div>
+            <div class="row">
+                <p>@Html.RadioButtonFor(x => x.QB, new { @class = "form-control" })@Model.QB</p>
+            </div>
+            <div class="row">
+                <p>@Html.RadioButtonFor(x => x.QC, new { @class = "form-control" })@Model.QC</p>
+            </div>
+            <div class="row">
+                <p>@Html.RadioButtonFor(x => x.QD, new { @class = "form-control" })@Model.QD</p>
+            </div>
         </div>
-        <div class="row">
-            <p>@Html.RadioButtonFor(x => x.QA, new { @class = "form-control" })@Model.QA </p>
+        <div class="row" style="display:none">
+            @Html.TextAreaFor(x => x.Qcorrectans)
         </div>
-        <div class="row">
-            <p>@Html.RadioButtonFor(x => x.QB, new { @class = "form-control" })@Model.QB</p>
-        </div>
-        <div class="row">
-            <p>@Html.RadioButtonFor(x => x.QC, new { @class = "form-control" })@Model.QC</p>
-        </div>
-        <div class="row">
-            <p>@Html.RadioButtonFor(x => x.QD, new { @class = "form-control" })@Model.QD</p>
-        </div>
-    </div>
-    <div class="row" style="display:none">
-        @Html.TextAreaFor(x => x.Qcorrectans)
-    </div>
 
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="next " class="btn btn-primary" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="next " class="btn btn-primary" />
+            </div>
         </div>
+       
     </div>
-    @ViewBag.not
-</div>
 }
 
+<script>
+    var remseconds =@timere;
+    var secondc = remseconds % 60;
+    function formatno(number)
+    {
+        if (number < 10) return '0' + number;
+        else return '' + number;
+    }
+    function starttick()
+    {
+        document.getElementById('secre').innerText =formatno(secondc);
+        document.getElementById('minre').innerText =formatno(parseInt(remseconds/60));
+        var _tick = setInterval(function()
+        {
+            if (remseconds > 0)
+            {
+                remseconds = remseconds - 1;
+                secondc = secondc - 1;
+                document.getElementById('secre').innerText = formatno(secondc);
+                document.getElementById('minre').innerText = formatno(parseInt(remseconds / 60));
+                if (secondc == 0)
+                    secondc = 60;
+            }
+            else
+            {
+                alert('your test is timed out');
+                clearInterval(_tick);
+                location.href = "/User/Logout";
+            }
+        }, 1000);
+
+    }
+    starttick();
+</script>
 

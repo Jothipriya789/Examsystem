@@ -42,11 +42,12 @@ namespace Examsystem.Models
         [Required(ErrorMessage = "password is required")]
         [DataType(DataType.Password)]
         public string password { get; set; }
+        [NotMapped]
         [Display(Name = "Confirm Password")]
         [Required(ErrorMessage = "Confirm the password")]
         [DataType(DataType.Password)]
         [Compare("password", ErrorMessage = "Confirm  password doesn't match ")]
-        [NotMapped]
+     
         public string confirmpassword { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
