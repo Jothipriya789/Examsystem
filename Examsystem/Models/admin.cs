@@ -24,6 +24,7 @@ namespace Examsystem.Models
         public string admin_name { get; set; }
         [Display(Name = "Admin Password")]
         [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
         public string admin_password { get; set; }
     }
 }

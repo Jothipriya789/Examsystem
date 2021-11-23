@@ -6,52 +6,63 @@
 }
 
 
-<div>
-    <h4>EXAM INSTRUCTIONS </h4>
-    <table>
-        <tr>
-            <td>Exam id: </td>
-            <td>@ViewBag.examid</td>
-        </tr>
-        <tr>
-            <td>ExamDescription </td>
-            <td> @ViewBag.examtext</td>
-        </tr>
-        <tr>
-            <td>Categoryid </td>
-            <td> @ViewBag.categoryid</td>
-        </tr>
 
-        <tr>
-            <td> Level id: </td>
-            <td> @ViewBag.lid</td>
-        </tr>
-        <tr>
-            <td>Exam duration</td>
-            <td>@ViewBag.duration</td>
-        </tr>
-        <tr>
-            <td>Categoryid </td>
-            <td> @ViewBag.categoryid</td>
-        </tr>
-        <tr>
-            <td>No of Questions</td>
-            <td>  @ViewBag.noofque</td>
-        </tr>
-        <tr>
-            <td>Pass Marks:</td>
-            <td> @ViewBag.pm</td>
-        </tr>
-        <tr>
-            <td>Marks: </td>
-            <td>@ViewBag.marks</td>
-        </tr>
-        <tr>
-            <td> Total marks</td>
-            <td> @ViewBag.tmarks</td>
-        </tr>
-    </table>
-</div>
-<div>
-    <a href="@Url.Action("examques", new { id= @ViewBag.categoryid })" class="btn btn-success">Start Exam</a>
-</div>
+@if (ViewBag.not != null)
+{
+    <h2><center>@ViewBag.not</center></h2>
+    <div align="center">
+        <a  href="@Url.Action("showexam", new {  } )" class="btn btn-primary">ok</a>
+    </div>
+    
+}
+@if (ViewBag.not == null)
+{
+    <div  align="center">
+        <h4>EXAM INSTRUCTIONS </h4>
+
+        <table align="center">
+            <tr>
+                <td><b>Exam id: </b></td>
+                <td>@ViewBag.examid</td>
+            </tr>
+            <tr>
+                <td><b>ExamDescription</b></td>
+                <td> @ViewBag.examtext</td>
+            </tr>
+            <tr>
+                <td><b>Categoryid</b> </td>
+                <td> @ViewBag.categoryid</td>
+            </tr>
+
+            <tr>
+                <td><b> Level id:</b> </td>
+                <td> @ViewBag.lid</td>
+            </tr>
+            <tr>
+                <td><b>Exam duration</b></td>
+                <td>@ViewBag.duration</td>
+            </tr>
+
+            <tr>
+                <td><b>No of Questions</b></td>
+                <td>  @ViewBag.noofque</td>
+            </tr>
+            <tr>
+                <td><b>Pass Marks:</b></td>
+                <td> @ViewBag.pm</td>
+            </tr>
+            <tr>
+                <td><b>Marks:</b> </td>
+                <td>@ViewBag.marks</td>
+            </tr>
+            <tr>
+                <td><b> Total marks</b></td>
+                <td> @ViewBag.tmarks</td>
+            </tr>
+        </table>
+
+    </div>
+    <div align="center">
+        <a href="@Url.Action("examques", new { id = @ViewBag.categoryid })" class="btn btn-success">Start Exam</a>
+    </div>
+}

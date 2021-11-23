@@ -1,6 +1,7 @@
-﻿
+﻿@model Examsystem.Models.Report
+
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -11,7 +12,23 @@
     <title>Results</title>
 </head>
 <body>
-    <div> 
+    @Html.ValidationSummary(true)
+    @using (Html.BeginForm())
+    {
+        @Html.LabelFor(u => u.result_id)<br />
+        @Html.TextBoxFor(u => u.result_id)<br />
+        @Html.LabelFor(u => u.user_id)<br />
+        @Html.TextBoxFor(u => u.user_id)<br />
+        @Html.LabelFor(u => u.exam_id)<br />
+        @Html.TextBoxFor(u => u.exam_id)<br />
+        @Html.LabelFor(u => u.result_score)<br />
+        @Html.TextBox("rs", (String)ViewBag.rs)<br />
+        @Html.LabelFor(u => u.result_status)<br />
+        @Html.TextBoxFor(u => u.result_status)<br />
+        @ViewBag.Notification
+    }
+    <div>
+
     </div>
 </body>
 </html>

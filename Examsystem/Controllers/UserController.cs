@@ -31,18 +31,26 @@ namespace Examsystem.Controllers
                 ViewBag.Notification = "this account is already existed";
                 return View();
             }
+            else if (db.Candidates.Any(x => x.email == candidate.email))
+            {
+                ViewBag.Notification = "this email  is already existed";
+                return View();
+            }
             else
             {
-                db.Candidates.Add(candidate);
-                db.SaveChanges();
-                Session["Username"] = candidate.Userid.ToString();
-                Session["User_fname"] = candidate.Userfname.ToString();
-                Session["User_Lname"] = candidate.Userlname.ToString();
-                Session["User_phoneeno"] = candidate.phoneno.ToString();
-                Session["User_email"] = candidate.email.ToString();
-                Session["user_password"] = candidate.password.ToString();
-                Session["confirm_password"] = candidate.confirmpassword.ToString();
-                return RedirectToAction("showexam");
+                try
+                {
+                    db.Candidates.Add(candidate);
+                    db.SaveChanges();
+                    Session["Username"] = candidate.Userid.ToString();
+                    Session["Userfname"] = candidate.Userfname.ToString();
+                    return RedirectToAction("showexam");
+                }
+                catch
+                {
+                    ViewBag.Notification = "this account is already existed";
+                    return View();
+                }
             }
 
         }
@@ -60,13 +68,18 @@ namespace Examsystem.Controllers
             if (checklogin != null)
             {
                 Session["Username"] = candidate.Userid.ToString();
+                Session["Userfname"] = checklogin.Userfname.ToString();
                 TempData["uid"] = candidate.Userid;
-                Session["user_password"] = candidate.password.ToString();
+                TempData["uf"] = checklogin.Userfname;
+                TempData["lf"] = checklogin.Userlname;
+                TempData["email"] = checklogin.email;
+                TempData.Keep();
                 return RedirectToAction("showexam");
             }
             else
             {
                 ViewBag.Notification = "wrong username or password";
+                return View();
             }
             return RedirectToAction("showexam");
         }
@@ -92,7 +105,7 @@ namespace Examsystem.Controllers
                 TempData["score"] = 0;
                 TempData["i"] = 1;
                 TempData["id"] = id;
-                TempData["pscore"] = d.passmarks;
+                TempData["sno"] = 0;
                 TempData.Keep();
                 if (data != null)
                 {
@@ -108,22 +121,31 @@ namespace Examsystem.Controllers
                     ViewBag.tmarks = d.totalmarks;
                     TempData["level"] = d.levelid;
                     TempData["examid"] = d.exam_id;
+                    TempData["pscore"] = d.passmarks;
+                    TempData["des"] = d.exam_description;
                     TempData.Keep();
+
                     return View(d);
                 }
                 else
+                {
+                    ViewBag.not = "No exam found";
                     return View();
+                }
+                return View();
             }
         }
         [HttpGet]
         public ActionResult examques(string id)
         {
+            var i = Convert.ToInt32(TempData["sno"]);
             Question q = null;
             if (TempData["questions "] != null)
             {
                 Queue<Question> qlist = (Queue<Question>)TempData["questions "];
                 if (qlist.Count > 0)
                 {
+                    TempData["sno"] = i+1;
                     q = qlist.Peek();
                     qlist.Dequeue();
                     TempData["questions "] = qlist;
@@ -141,43 +163,76 @@ namespace Examsystem.Controllers
         [HttpPost]
         public ActionResult examques(Question question)
         {
-            string correctans = null;
-            if (question.QA != null)
+            try
             {
-                correctans = "A";
-            }
-            else if (question.QB != null)
-            {
-                correctans = "B";
-            }
-            else if (question.QC != null)
-            {
-                correctans = "C";
+                string correctans = null;
+                if (question.QA != null)
+                {
+                    correctans = "A";
+                }
+                else if (question.QB != null)
+                {
+                    correctans = "B";
+                }
+                else if (question.QC != null)
+                {
+                    correctans = "C";
 
-            }
-            else if (question.QD != null)
-            {
-                correctans = "D";
-            }
-            if (correctans.Equals(question.Qcorrectans))
-            {
-                TempData["score"] = Convert.ToInt32(TempData["score"]) + 1;
-            }
+                }
+                else if (question.QD != null)
+                {
+                    correctans = "D";
+                }
+                else
+                {
+                    correctans = "e";
+                }
 
-            TempData.Keep();
-            return RedirectToAction("examques");
+                if (correctans.Equals(question.Qcorrectans))
+                {
+                    TempData["score"] = Convert.ToInt32(TempData["score"]) + 1;
+                }
+               
+                TempData.Keep();
+                return RedirectToAction("examques");
+            }
+            catch(Exception ex)
+            {
+                ViewBag.not = ex;
+            }
+            return View();
         }
         public ActionResult Endexam()
         {
+            var id = Convert.ToInt32(TempData["score"]);
+            var p = Convert.ToInt32(TempData["pscore"]);
             var level = Convert.ToInt32(TempData["level"]);
+            TempData["score"] = id;
+            TempData.Keep();
             if (level == 3)
             {
                 return RedirectToAction("End");
             }
+            if (id >= p)
+            {
+                ViewBag.msg = "pass";
+                ViewBag.msg1 = "congratulations on completed this level ";
+                return View();
+            }
+            else
+            {
+                ViewBag.msg1 = "sorry! better luck next time ";
+                ViewBag.msg = "fail";
+                return View();
+            }
+           
+            
             return View();
         }
         public ActionResult level2(int id)
         {
+            TempData["e"] = id;
+            TempData.Keep();
             var p = Convert.ToInt32(TempData["pscore"]);
             if (id >= p)
             {
@@ -185,7 +240,7 @@ namespace Examsystem.Controllers
             }
             else
             {
-                return RedirectToAction("Home", "Index");
+                return RedirectToAction("showexam");
             }
            
         }
@@ -222,20 +277,42 @@ namespace Examsystem.Controllers
                     TempData["level"] = d.levelid;
                     TempData["pscore"] = d.passmarks;
                     TempData["examid"] = d.exam_id;
+                    TempData["des"] = d.exam_description;
                     TempData["i"] = 2;
                     TempData.Keep();
                     return View(d);
                 }
                 else
+                {
+                    ViewBag.not = "No exam found";
                     return View();
+                }
             }
         }
         public ActionResult End()
         {
+            var id = Convert.ToInt32(TempData["e"]);
+            var p = Convert.ToInt32(TempData["pscore"]);
+            if (id >= p)
+            {
+
+                ViewBag.msg1 = "congratulations on completed 3 levels";
+                ViewBag.msg = "pass";
+
+                return View();
+            }
+            else
+            {
+                ViewBag.msg = "fail";
+                ViewBag.msg1 = "sorry! better luck next time ";
+              
+                return View();
+            }
+
             return View();
         }
         [HttpGet]
-        public ActionResult Results ()
+        public ActionResult Results()
         {
             return View();
         }
@@ -247,6 +324,7 @@ namespace Examsystem.Controllers
             var u = Convert.ToInt32(TempData["uid"]).ToString();
             var e = Convert.ToInt32(TempData["examid"]).ToString();
             report.result_score = c;
+            ViewBag.rs = report.result_score;
             report.user_id = u;
             report.exam_id = e;
             var level = Convert.ToInt32(TempData["level"]);
@@ -262,10 +340,18 @@ namespace Examsystem.Controllers
             {
                 report.result_status = "better try";
             }
-            if (ModelState.IsValid)
+            try
             {
-                db1.Reports.Add(report);
-                db1.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db1.Reports.Add(report);
+                    db1.SaveChanges();
+                    return View();
+                }
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Notification = ex;
                 return View();
             }
             return View();

@@ -4,47 +4,42 @@
     ViewBag.Title = "examques";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>examques</h2>
-
+<h2>online exam </h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Question</h4>
-        <hr />
-
-        <div class="container" style="margin:auto">
-            <div class="row">
-                <p>@Html.DisplayFor(x => x.Qid))</p>
-
-                <p>@Html.DisplayFor(x => x.Q_text)</p>
-            </div>
-            <div class="row">
-                <p>@Html.RadioButtonFor(x => x.QA, new { @class = "form-control" } )@Model.QA </p>
-            </div>
-            <div class="row">
-                <p>@Html.RadioButtonFor(x => x.QB, new { @class = "form-control" })@Model.QB</p>
-            </div>
-            <div class="row">
-                <p>@Html.RadioButtonFor(x => x.QC, new { @class = "form-control" })@Model.QC</p>
-            </div>
-            <div class="row">
-                <p>@Html.RadioButtonFor(x => x.QD, new { @class = "form-control" })@Model.QD</p>
-            </div>
+<div class="form-horizontal" >
+    <hr />
+    <div class="container" style="margin:auto">
+        <div class="row">
+          
+            <p> @TempData["sno"]) @Html.DisplayFor(x => x.Q_text)</p>
         </div>
-        <div class="row" style="display:none">
-            @Html.TextAreaFor(x => x.Qcorrectans)
+        <div class="row">
+            <p>@Html.RadioButtonFor(x => x.QA, new { @class = "form-control" })@Model.QA </p>
         </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="next " class="btn btn-primary" />
-            </div>
+        <div class="row">
+            <p>@Html.RadioButtonFor(x => x.QB, new { @class = "form-control" })@Model.QB</p>
+        </div>
+        <div class="row">
+            <p>@Html.RadioButtonFor(x => x.QC, new { @class = "form-control" })@Model.QC</p>
+        </div>
+        <div class="row">
+            <p>@Html.RadioButtonFor(x => x.QD, new { @class = "form-control" })@Model.QD</p>
         </div>
     </div>
+    <div class="row" style="display:none">
+        @Html.TextAreaFor(x => x.Qcorrectans)
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="next " class="btn btn-primary" />
+        </div>
+    </div>
+    @ViewBag.not
+</div>
 }
 
 

@@ -29,7 +29,7 @@
                     @if (Session["Username"] != null)
                     {
 
-                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Username"] </p></li>
+                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Userfname"] </p></li>
                         <li>@Html.ActionLink("Logout", "Logout", "User")</li>
                     }
 
@@ -41,7 +41,7 @@
                         <li>@Html.ActionLink("Add questions", "Index", "Admin")</li>
                         <li>@Html.ActionLink("view questions", "Getdetailsques", "Admin")</li>
                         <li>@Html.ActionLink("view report", "Getdetailsstudents", "Admin")</li>
-                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Admin_id"] </p></li>
+                        <li><p style="color:#fff;margin-top:15px">Hello @Session["Admin"] </p></li>
                         <li>@Html.ActionLink("Logoutadmin", "Logoutadmin", "Admin")</li>
 
                     }
@@ -59,9 +59,7 @@
     <div class="container body-content">
         @RenderBody()
        
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My Application</p>
-        </footer>
+      
     </div>
 
     @Scripts.Render("~/bundles/jquery")

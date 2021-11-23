@@ -10,10 +10,14 @@
 <body>
     <div>
         <h1>completed Exam !!</h1>
-        <h2>your score is @TempData["score"]</h2>
-        <p>examid is @TempData["examid"]</p>
-        <p>userid is @TempData["uid"]</p>
-        <p>result status is pass</p>
+        <h3>@ViewBag.msg1</h3>
+        <p><b>your score is</b> @TempData["score"]</p>
+        <p><b>exam is </b>@TempData["des"]</p>
+        <p><b>userid is </b>@TempData["uid"]</p>
+        <p><b>user name is</b> @TempData["uf"] @TempData["lf"]</p>
+        <p><b>email is </b>@TempData["email"]</p>
+        <p><b>level is </b>@TempData["level"]</p>
+        <p><b>result status is </b>@ViewBag.msg</p>
 
     </div>
 </body>

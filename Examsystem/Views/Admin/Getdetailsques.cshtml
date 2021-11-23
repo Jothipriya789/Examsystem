@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "view questions ";
-   
-}
 
-<h2>Getdetailsques</h2>
+}
+<br /><br /><br />
+<h2>Questions </h2>
 
 <table class="table">
     <tr>
@@ -39,41 +39,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Qid)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Q_text)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.QA)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.QB)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.QC)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.QD)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Qcorrectans)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.category_id)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.levelid)
-    </td>
-    <td>
-    <td>
-        <a href="@Url.Action("Delete", new { id=item.Qid })" class="btn btn-danger">Delete</a>
-    </td>
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Q_text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qcorrectans)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.category_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelid)
+            </td>
+            <td>
+            <td>
+                <a href="@Url.Action("Delete", new { id=item.Qid })" class="btn btn-danger">Delete</a>
+            </td>
+            </td>
+        </tr>
+    }
 
 </table>

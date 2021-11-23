@@ -35,6 +35,7 @@ namespace Examsystem.Controllers
             if (checklogin != null)
             {
                 Session["Admin_id"] = admin.admin_id.ToString();
+                Session["Admin"] = checklogin.admin_name.ToString();
                 Session["Admin_password"] = admin.admin_password.ToString();
                 return RedirectToAction("Index", "Home");
             }
@@ -42,7 +43,7 @@ namespace Examsystem.Controllers
             {
                 ViewBag.Notification = "wrong username or password";
             }
-            return RedirectToAction("Dashboard");
+            return View();
         }
         
         public ActionResult Add()
@@ -64,11 +65,23 @@ namespace Examsystem.Controllers
             }
             else
             {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.Categories.Add(category);
+                        db.SaveChanges();
+                        return View();
+                    }
+                }
+                catch
+                {
+                    ViewBag.Notification = "This subject is already existed";
+                    return View();
+                }
 
-                db.Categories.Add(category);
-                db.SaveChanges();
-                return View();
-            }
+           }
+            return View();
         }
 
 
@@ -144,11 +157,11 @@ namespace Examsystem.Controllers
                                 if (a.Q_text == "" || a.Q_text == null) data.Add("<li> Text is required</li>");
                                 if (a.QA == "" || a.QA == null) data.Add("<li> option 1 is required</li>");
                                 if (a.QB == "" || a.QB == null) data.Add("<li> option 2 is required</li>");
-                                if (a.QC == "" || a.QC == null) data.Add("<li> option 1 is required</li>");
-                                if (a.QD == "" || a.QD == null) data.Add("<li> option 1 is required</li>");
+                                if (a.QC == "" || a.QC == null) data.Add("<li> option 3 is required</li>");
+                                if (a.QD == "" || a.QD == null) data.Add("<li> option 4 is required</li>");
                                 if (a.Qcorrectans == "" || a.Qcorrectans == null) data.Add("<li>Correct answer is required</li>");
-                                if (a.category_id == null) data.Add("<li> option 1 is required</li>");
-                                if (a.levelid == null) data.Add("<li> option 1 is required</li>");
+                                if (a.category_id == null) data.Add("<li> category id is required</li>");
+                                if (a.levelid == null) data.Add("<li>level id is required</li>");
                                 data.Add("</ul>");
                                 data.ToArray();
                                 return Json(data, JsonRequestBehavior.AllowGet);
@@ -221,24 +234,35 @@ namespace Examsystem.Controllers
         public ActionResult Addexam(exam exam)
         {
             int i = 3;
+            var catlist = db.Categories.ToList();
+            ViewBag.Catlist = new SelectList(catlist, "category_id", "category_name");
             if (db.exams.Any(x => x.exam_id == exam.exam_id))
             {
                 ViewBag.Notification1 = "This exam id is already existed";
                 return View();
             }
-            else if (db.exams.Any(x => x.levelid > i))
+          
+            else if (db.exams.Any(x => x.category_id.Equals(exam.category_id) && x.levelid.Equals(exam.levelid)))
             {
-                ViewBag.Notification2 = "This level should be within 3";
+                ViewBag.Notification1 = "This exam is already existed ";
                 return View();
             }
-            else
+            try
             {
-                var catlist = db.Categories.ToList();
-                ViewBag.Catlist = new SelectList(catlist, "category_id", "category_name");
-                db.exams.Add(exam);
-                db.SaveChanges();
+             if (ModelState.IsValid)
+                {
+
+                    db.exams.Add(exam);
+                    db.SaveChanges();
+                    return View();
+                }
+            }
+            catch
+            {
+                ViewBag.Notification1 = "This exam is already existed ";
                 return View();
             }
+            return View();
         }
         public ActionResult GetdetailsExams()
         {
@@ -247,6 +271,8 @@ namespace Examsystem.Controllers
         }
         public ActionResult Edit(string id)
         {
+            var catlist = db.Categories.ToList();
+            ViewBag.Catlist = new SelectList(catlist, "category_id", "category_name");
             var cat = db.exams.Where(s => s.exam_id == id).SingleOrDefault();
             return View(cat);
         }
@@ -254,6 +280,8 @@ namespace Examsystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(exam exam,string id)
         {
+            var catlist = db.Categories.ToList();
+            ViewBag.Catlist = new SelectList(catlist, "category_id", "category_name");
             var cat = db.exams.FirstOrDefault(s => s.exam_id ==id);
             if (cat != null)
             {

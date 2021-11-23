@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Getdetailsstudents";
-    
-}
 
-<h2>Getdetailsstudents</h2>
+}
+<br /><br /><br />
+<h2>candidate details </h2>
 
 
 <table class="table">
@@ -25,32 +25,33 @@
         <th>
             @Html.DisplayNameFor(model => model.email)
         </th>
-        
+
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Userid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Userfname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Userlname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.phoneno)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-       
-        <td>
-            <a href="@Url.Action("Results", new { id=@item.Userid})" class="btn btn-success">view Results</a>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Userid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Userfname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Userlname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phoneno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
 
-        </td>
-    </tr>
-}
+            <td>
+                <a href="@Url.Action("Results", new { id=@item.Userid})" class="btn btn-success">view Results</a>
+
+            </td>
+        </tr>
+    }
 
 </table>
