@@ -83,6 +83,25 @@ namespace Examsystem.Controllers
             }
             return RedirectToAction("showexam");
         }
+        public ActionResult Results()
+        {
+            var id = (TempData["uid"]).ToString();
+            TempData["uid"] = id;
+            TempData.Keep();
+            var d = (from e in db.Reports where string.Equals(e.Userid, id) select e).ToList();
+            var data = db.Reports.FirstOrDefault(x => string.Equals(x.Userid, id));
+            if (data != null)
+            {
+                List<Report> reports = d.ToList();
+                return View(reports);
+            }
+            else
+            {
+                ViewBag.not = "no results found ";
+                return View();
+            }
+
+        }
         public ActionResult showexam()
         {
             List<Category> categories = db.Categories.ToList();

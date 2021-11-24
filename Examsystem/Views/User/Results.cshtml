@@ -4,13 +4,15 @@
     ViewBag.Title = "Results";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br/><br/><br/>
+<br />
+<br />
+<br />
 <h2>Results</h2>
 @if (ViewBag.not != null)
 {
     <h2><center>@ViewBag.not</center></h2>
     <div align="center">
-        <a href="@Url.Action("Getdetailsstudents", new {  } )" class="btn btn-primary">ok</a>
+        <a href="@Url.Action("showexam", new {  } )" class="btn btn-primary">ok</a>
     </div>
 
 }
@@ -41,30 +43,30 @@
 
         @foreach (var item in Model)
         {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.result_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.result_status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.result_score)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.user_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.exam_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.edate)
-        </td>
-    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.result_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.result_status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.result_score)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.exam_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.edate)
+                </td>
+            </tr>
         }
 
     </table>
     <div align="center">
-        <a href="@Url.Action("Getdetailsstudents", new {  } )" class="btn btn-primary">ok</a>
+        <a href="@Url.Action("showexam", new {  } )" class="btn btn-primary">ok</a>
     </div>
 }
